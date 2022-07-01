@@ -14,6 +14,7 @@ import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.string.server.*;
 import com.tugalsan.api.time.client.*;
+import com.tugalsan.api.unsafe.client.*;
 
 public class TS_SQLInsert {
 
@@ -57,7 +58,7 @@ public class TS_SQLInsert {
                     valss.add(bytes);
                     return;
                 }
-                throw new RuntimeException("Unknown cell type");
+                TGS_UnSafe.catchMeIfUCan(d.className, "valCell(List<TGS_SQLCellAbstract> vals)", "Unknown cell type");
             });
         });
     }
@@ -104,19 +105,19 @@ public class TS_SQLInsert {
                             var val = type.getTime();
                             return new TGS_SQLCellLNG(val);
                         }
-                        throw new RuntimeException("Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyStr()) {
                         if (o instanceof CharSequence val) {
                             return new TGS_SQLCellSTR(val);
                         }
-                        throw new RuntimeException("CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.typeBytesStr()) {
                         if (o instanceof CharSequence val) {
                             return new TGS_SQLCellSTR(val);
                         }
-                        throw new RuntimeException("CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyBytes()) {
                         if (o instanceof Object[] && ct.typeBytesRow()) {
@@ -129,7 +130,7 @@ public class TS_SQLInsert {
                         var val = TS_FileObjUtils.toBytes(o);
                         return new TGS_SQLCellBYTES(val);
                     }
-                    throw new RuntimeException("Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
+                    return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
                 })
         ));
     }
@@ -169,7 +170,7 @@ public class TS_SQLInsert {
                 executor.cellGens.add(g);
                 return;
             }
-            throw new RuntimeException("ERROR: unknown colun generation type");
+            TGS_UnSafe.catchMeIfUCan(d.className, "gen", "unknown colun generation type");
         });
         var g = new TS_SQLInsertGen(executor);
         gen.execute(g);
