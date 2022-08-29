@@ -58,6 +58,9 @@ public class TS_SQLInsert {
                     valss.add(bytes);
                     return;
                 }
+                d.ce("valCell(List<TGS_SQLCellAbstract> vals", "tableName", executor.tableName);
+                d.ce("valCell(List<TGS_SQLCellAbstract> vals", "cols", executor.colNames);
+                d.ce("valCell(List<TGS_SQLCellAbstract> vals", "vals", vals);
                 TGS_UnSafe.catchMeIfUCan(d.className, "valCell(List<TGS_SQLCellAbstract> vals)", "Unknown cell type");
             });
         });
@@ -105,18 +108,27 @@ public class TS_SQLInsert {
                             var val = type.getTime();
                             return new TGS_SQLCellLNG(val);
                         }
+                        d.ce("List<Object> vals", "tableName", executor.tableName);
+                        d.ce("List<Object> vals", "cols", executor.colNames);
+                        d.ce("List<Object> vals", "vals", vals);
                         return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyStr()) {
                         if (o instanceof CharSequence val) {
                             return new TGS_SQLCellSTR(val);
                         }
+                        d.ce("List<Object> vals", "tableName", executor.tableName);
+                        d.ce("List<Object> vals", "cols", executor.colNames);
+                        d.ce("List<Object> vals", "vals", vals);
                         return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.typeBytesStr()) {
                         if (o instanceof CharSequence val) {
                             return new TGS_SQLCellSTR(val);
                         }
+                        d.ce("List<Object> vals", "tableName", executor.tableName);
+                        d.ce("List<Object> vals", "cols", executor.colNames);
+                        d.ce("List<Object> vals", "vals", vals);
                         return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyBytes()) {
@@ -130,6 +142,9 @@ public class TS_SQLInsert {
                         var val = TS_FileObjUtils.toBytes(o);
                         return new TGS_SQLCellBYTES(val);
                     }
+                    d.ce("List<Object> vals", "tableName", executor.tableName);
+                    d.ce("List<Object> vals", "cols", executor.colNames);
+                    d.ce("List<Object> vals", "vals", vals);
                     return TGS_UnSafe.catchMeIfUCanReturns(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
                 })
         ));
@@ -170,6 +185,8 @@ public class TS_SQLInsert {
                 executor.cellGens.add(g);
                 return;
             }
+            d.ce("gen(TGS_ExecutableType1<TS_SQLInsertGen> gen)", "tableName", executor.tableName);
+            d.ce("gen(TGS_ExecutableType1<TS_SQLInsertGen> gen)", "cols", executor.colNames);
             TGS_UnSafe.catchMeIfUCan(d.className, "gen", "unknown colun generation type");
         });
         var g = new TS_SQLInsertGen(executor);
