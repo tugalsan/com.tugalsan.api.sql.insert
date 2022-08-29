@@ -11,7 +11,7 @@ import com.tugalsan.api.sql.sanitize.server.*;
 
 public class TS_SQLInsertExecutor {
 
-    final private static TS_Log d = TS_Log.of(TS_SQLInsertExecutor.class.getSimpleName());
+    final private static TS_Log d = TS_Log.of(TS_SQLInsertExecutor.class);
 
     public TS_SQLInsertExecutor(TS_SQLConnAnchor anchor, CharSequence tableName) {
         this.anchor = anchor;

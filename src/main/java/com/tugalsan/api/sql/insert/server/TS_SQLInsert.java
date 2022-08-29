@@ -18,7 +18,7 @@ import com.tugalsan.api.unsafe.client.*;
 
 public class TS_SQLInsert {
 
-    final private static TS_Log d = TS_Log.of(TS_SQLInsert.class.getSimpleName());
+    final private static TS_Log d = TS_Log.of(TS_SQLInsert.class);
 
     public TS_SQLInsert(TS_SQLConnAnchor anchor, CharSequence tableName) {
         executor = new TS_SQLInsertExecutor(anchor, tableName);
