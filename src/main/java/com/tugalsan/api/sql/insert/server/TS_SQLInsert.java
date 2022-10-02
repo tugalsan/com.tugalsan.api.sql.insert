@@ -83,7 +83,7 @@ public class TS_SQLInsert {
 //        if (vals.get(0) instanceof List) {//recursive error, WHY?
 //            return vals.stream().mapToInt(rows -> valObj(rows)).sum();
 //        }
-        return valCell(TGS_StreamUtils.toList(
+        return valCell(TGS_StreamUtils.toLst(
                 IntStream.range(0, vals.size()).mapToObj(i -> {
                     var cn = executor.colNames.get(i);
                     var ct = new TGS_SQLColTyped(cn);
