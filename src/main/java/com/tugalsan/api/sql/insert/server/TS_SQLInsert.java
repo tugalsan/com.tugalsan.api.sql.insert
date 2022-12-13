@@ -150,7 +150,7 @@ public class TS_SQLInsert {
         ));
     }
 
-    public int gen(TGS_ExecutableType1<TS_SQLInsertGen> gen) {
+    public int gen_then_valCell(TGS_ExecutableType1<TS_SQLInsertGen> gen) {
         IntStream.range(0, executor.colNames.size()).forEachOrdered(ci -> {
             if (ci == 0) {
                 var g = new TS_SQLCellGenLngNext(
