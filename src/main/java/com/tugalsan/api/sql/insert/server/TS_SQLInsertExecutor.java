@@ -48,7 +48,7 @@ public class TS_SQLInsertExecutor {
         return TS_SQLConnStmtUtils.fill(stmt, colNames, cellVals, offset);
     }
 
-    public int execute() {
+    public TS_SQLConnStmtUpdateResult execute() {
         return TS_SQLConnWalkUtils.update(anchor, toString(), fillStmt -> set_fill(fillStmt, 0));
     }
 }

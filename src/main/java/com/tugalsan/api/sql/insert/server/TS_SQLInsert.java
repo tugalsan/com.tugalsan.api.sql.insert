@@ -25,16 +25,16 @@ public class TS_SQLInsert {
     }
     final private TS_SQLInsertExecutor executor;
 
-    private int valDriver(TGS_ExecutableType1<List> vals) {
+    private TS_SQLConnStmtUpdateResult valDriver(TGS_ExecutableType1<List> vals) {
         vals.execute(executor.cellVals);
         return executor.execute();
     }
 
-    public int valCell(TGS_SQLCellAbstract... vals) {
+    public TS_SQLConnStmtUpdateResult valCell(TGS_SQLCellAbstract... vals) {
         return valCell(TGS_ListUtils.of(vals));
     }
 
-    public int valCell(List<TGS_SQLCellAbstract> vals) {
+    public TS_SQLConnStmtUpdateResult valCell(List<TGS_SQLCellAbstract> vals) {
         return valDriver(valss -> {
             IntStream.range(0, vals.size()).forEachOrdered(i -> {
                 if (vals.get(i) instanceof TGS_SQLCellBYTESSTR cell) {
@@ -66,9 +66,9 @@ public class TS_SQLInsert {
         });
     }
 
-    public int valObj(Object... vals) {
+    public TS_SQLConnStmtUpdateResult valObj(Object... vals) {
         if (vals.length == 0) {
-            return 0;
+            return TS_SQLConnStmtUpdateResult.of(0, null);
         }
 //        if (vals[0] instanceof List) {//recursive error, WHY?
 //            return Arrays.asList(vals).stream().mapToInt(rows -> valObj(rows)).sum();
@@ -76,9 +76,9 @@ public class TS_SQLInsert {
         return valObj(TGS_ListUtils.of(vals));
     }
 
-    public int valObj(List<Object> vals) {
+    public TS_SQLConnStmtUpdateResult valObj(List<Object> vals) {
         if (vals.isEmpty()) {
-            return 0;
+            return TS_SQLConnStmtUpdateResult.of(0, null);
         }
 //        if (vals.get(0) instanceof List) {//recursive error, WHY?
 //            return vals.stream().mapToInt(rows -> valObj(rows)).sum();
@@ -150,7 +150,7 @@ public class TS_SQLInsert {
         ));
     }
 
-    public int gen_then_setCell(TGS_ExecutableType1<TS_SQLInsertGen> gen) {
+    public TS_SQLConnStmtUpdateResult gen_then_setCell(TGS_ExecutableType1<TS_SQLInsertGen> gen) {
         IntStream.range(0, executor.colNames.size()).forEachOrdered(ci -> {
             if (ci == 0) {
                 var g = new TS_SQLCellGenLngNext(
