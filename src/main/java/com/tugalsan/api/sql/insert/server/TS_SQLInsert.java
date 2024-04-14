@@ -14,28 +14,39 @@ import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.string.server.*;
 import com.tugalsan.api.time.client.*;
-import com.tugalsan.api.unsafe.client.*;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 
 public class TS_SQLInsert {
 
     final private static TS_Log d = TS_Log.of(TS_SQLInsert.class);
 
-    public TS_SQLInsert(TS_SQLConnAnchor anchor, CharSequence tableName) {
-        executor = new TS_SQLInsertExecutor(anchor, tableName);
+    public TS_SQLInsert(TS_SQLConnAnchor anchor, CharSequence tableName, List<String> colNames) {
+        executor = new TS_SQLInsertExecutor(anchor, tableName, colNames);
     }
     final private TS_SQLInsertExecutor executor;
 
-    private TS_SQLConnStmtUpdateResult valDriver(TGS_RunnableType1<List> vals) {
+    public static TGS_UnionExcuse<TS_SQLInsert> of(TS_SQLConnAnchor anchor, CharSequence tableName) {
+        var u = TS_SQLConnColUtils.names(anchor, tableName);
+        if (u.isExcuse()) {
+            return u.toExcuse();
+        }
+        return TGS_UnionExcuse.of(new TS_SQLInsert(anchor, tableName, u.value()));
+    }
+
+    private TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> valDriver(TGS_RunnableType1<List> vals) {
         vals.run(executor.cellVals);
         return executor.run();
     }
 
-    public TS_SQLConnStmtUpdateResult valCell(TGS_SQLCellAbstract... vals) {
+    public TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> valCell(TGS_SQLCellAbstract... vals) {
         return valCell(TGS_ListUtils.of(vals));
     }
 
-    public TS_SQLConnStmtUpdateResult valCell(List<TGS_SQLCellAbstract> vals) {
-        return valDriver(valss -> {
+    public TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> valCell(List<TGS_SQLCellAbstract> vals) {
+        var wrap = new Object() {
+            TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> inner;
+        };
+        var u_driver = valDriver(valss -> {
             IntStream.range(0, vals.size()).forEachOrdered(i -> {
                 if (vals.get(i) instanceof TGS_SQLCellBYTESSTR cell) {
                     var valString = cell.getValueString();
@@ -61,29 +72,30 @@ public class TS_SQLInsert {
                 d.ce("valCell(List<TGS_SQLCellAbstract> vals", "tableName", executor.tableName);
                 d.ce("valCell(List<TGS_SQLCellAbstract> vals", "cols", executor.colNames);
                 d.ce("valCell(List<TGS_SQLCellAbstract> vals", "vals", vals);
-                TGS_UnSafe.thrw(d.className, "valCell(List<TGS_SQLCellAbstract> vals)", "Unknown cell type");
+                wrap.inner = TGS_UnionExcuse.ofExcuse(d.className, "valCell(List<TGS_SQLCellAbstract> vals)", "Unknown cell type");
             });
         });
+        if (wrap.inner != null && wrap.inner.isExcuse()) {
+            return wrap.inner;
+        }
+        return u_driver;
     }
 
-    public TS_SQLConnStmtUpdateResult valObj(Object... vals) {
+    public TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> valObj(Object... vals) {
         if (vals.length == 0) {
-            return TS_SQLConnStmtUpdateResult.of(0, null);
+            return TGS_UnionExcuse.ofExcuse(d.className, "valObj", "vals.length == 0");
         }
-//        if (vals[0] instanceof List) {//recursive error, WHY?
-//            return Arrays.asList(vals).stream().mapToInt(rows -> valObj(rows)).sum();
-//        }
         return valObj(TGS_ListUtils.of(vals));
     }
 
-    public TS_SQLConnStmtUpdateResult valObj(List<Object> vals) {
+    public TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> valObj(List<Object> vals) {
         if (vals.isEmpty()) {
-            return TS_SQLConnStmtUpdateResult.of(0, null);
+            return TGS_UnionExcuse.ofExcuse(d.className, "valObj", "vals.length == 0");
         }
-//        if (vals.get(0) instanceof List) {//recursive error, WHY?
-//            return vals.stream().mapToInt(rows -> valObj(rows)).sum();
-//        }
-        return valCell(TGS_StreamUtils.toLst(
+        var wrap = new Object() {
+            TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> inner;
+        };
+        var u_cell = valCell(TGS_StreamUtils.toLst(
                 IntStream.range(0, vals.size()).mapToObj(i -> {
                     var cn = executor.colNames.get(i);
                     var ct = new TGS_SQLColTyped(cn);
@@ -111,7 +123,8 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        wrap.inner = TGS_UnionExcuse.ofExcuse(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return new TGS_SQLCellLNG(0);//bogus
                     }
                     if (ct.familyStr()) {
                         if (o instanceof CharSequence val) {
@@ -120,7 +133,8 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        wrap.inner = TGS_UnionExcuse.ofExcuse(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return new TGS_SQLCellLNG(0);//bogus
                     }
                     if (ct.typeBytesStr()) {
                         if (o instanceof CharSequence val) {
@@ -129,28 +143,43 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        wrap.inner = TGS_UnionExcuse.ofExcuse(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return new TGS_SQLCellLNG(0);//bogus
                     }
                     if (ct.familyBytes()) {
                         if (o instanceof Object[] && ct.typeBytesRow()) {
-                            var val = TS_FileObjUtils.toBytes((Object[]) o).orElse(new byte[0]);
-                            return new TGS_SQLCellBYTES(val);
+                            var u_val = TS_FileObjUtils.toBytes((Object[]) o);
+                            if (u_val.isExcuse()) {//.orElse(excuse -> new byte[0]);
+                                wrap.inner = u_val.toExcuse();
+                            }
+                            return new TGS_SQLCellBYTES(u_val.value());
                         }
                         if (o instanceof byte[] val) {
                             return new TGS_SQLCellBYTES(val);
                         }
-                        var val = TS_FileObjUtils.toBytes(o).orElse(new byte[0]);
-                        return new TGS_SQLCellBYTES(val);
+                        var u_val = TS_FileObjUtils.toBytes( o);
+                        if (u_val.isExcuse()) {//.orElse(excuse -> new byte[0]);
+                            wrap.inner = u_val.toExcuse();
+                        }
+                        return new TGS_SQLCellBYTES(u_val.value());
                     }
                     d.ce("List<Object> vals", "tableName", executor.tableName);
                     d.ce("List<Object> vals", "cols", executor.colNames);
                     d.ce("List<Object> vals", "vals", vals);
-                    return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
+                    wrap.inner = TGS_UnionExcuse.ofExcuse(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
+                    return new TGS_SQLCellLNG(0);//bogus
                 })
         ));
+        if (wrap.inner != null && wrap.inner.isExcuse()) {
+            return wrap.inner;
+        }
+        return u_cell;
     }
 
-    public TS_SQLConnStmtUpdateResult gen_then_setCell(TGS_RunnableType1<TS_SQLInsertGen> gen) {
+    public TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> gen_then_setCell(TGS_RunnableType1<TS_SQLInsertGen> gen) {
+        var wrap = new Object() {
+            TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> inner;
+        };
         IntStream.range(0, executor.colNames.size()).forEachOrdered(ci -> {
             if (ci == 0) {
                 var g = new TS_SQLCellGenLngNext(
@@ -187,8 +216,11 @@ public class TS_SQLInsert {
             }
             d.ce("gen(TGS_RunnableType1<TS_SQLInsertGen> gen)", "tableName", executor.tableName);
             d.ce("gen(TGS_RunnableType1<TS_SQLInsertGen> gen)", "cols", executor.colNames);
-            TGS_UnSafe.thrw(d.className, "gen", "unknown colun generation type");
+            wrap.inner = TGS_UnionExcuse.ofExcuse(d.className, "gen", "unknown colun generation type");
         });
+        if (wrap.inner != null && wrap.inner.isExcuse()) {
+            return wrap.inner;
+        }
         var g = new TS_SQLInsertGen(executor);
         gen.run(g);
         return executor.run();
