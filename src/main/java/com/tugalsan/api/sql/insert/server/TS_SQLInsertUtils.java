@@ -6,7 +6,7 @@ import com.tugalsan.api.union.client.TGS_UnionExcuse;
 public class TS_SQLInsertUtils {
 
 //    final private static TS_Log d = TS_Log.of(TS_SQLInsertUtils.class);
-    protected static TGS_UnionExcuse<TS_SQLInsert> insert(TS_SQLConnAnchor anchor, CharSequence tableName) {
+    public static TGS_UnionExcuse<TS_SQLInsert> insert(TS_SQLConnAnchor anchor, CharSequence tableName) {
         return TS_SQLInsert.of(anchor, tableName);
     }
 
