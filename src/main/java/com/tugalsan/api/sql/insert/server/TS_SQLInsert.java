@@ -111,7 +111,7 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyStr()) {
                         if (o instanceof CharSequence val) {
@@ -120,7 +120,7 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.typeBytesStr()) {
                         if (o instanceof CharSequence val) {
@@ -129,7 +129,7 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyBytes()) {
                         if (o instanceof Object[] && ct.typeBytesRow()) {
@@ -145,7 +145,7 @@ public class TS_SQLInsert {
                     d.ce("List<Object> vals", "tableName", executor.tableName);
                     d.ce("List<Object> vals", "cols", executor.colNames);
                     d.ce("List<Object> vals", "vals", vals);
-                    return TGS_UnSafe.thrwReturns(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
+                    return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
                 })
         ));
     }
