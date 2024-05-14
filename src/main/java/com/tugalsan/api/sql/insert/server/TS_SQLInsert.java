@@ -133,13 +133,13 @@ public class TS_SQLInsert {
                     }
                     if (ct.familyBytes()) {
                         if (o instanceof Object[] && ct.typeBytesRow()) {
-                            var val = TS_FileObjUtils.toBytes((Object[]) o).orElse(new byte[0]);
+                            var val = TS_FileObjUtils.toBytes((Object[]) o).orElse(e -> new byte[0]);
                             return new TGS_SQLCellBYTES(val);
                         }
                         if (o instanceof byte[] val) {
                             return new TGS_SQLCellBYTES(val);
                         }
-                        var val = TS_FileObjUtils.toBytes(o).orElse(new byte[0]);
+                        var val = TS_FileObjUtils.toBytes(o).orElse(e -> new byte[0]);
                         return new TGS_SQLCellBYTES(val);
                     }
                     d.ce("List<Object> vals", "tableName", executor.tableName);
