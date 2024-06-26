@@ -13,7 +13,7 @@ import com.tugalsan.api.sql.col.typed.client.*;
 import com.tugalsan.api.sql.conn.server.*;
 import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
-import com.tugalsan.api.string.server.*;
+import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.time.client.*;
 import com.tugalsan.api.unsafe.client.*;
 
@@ -40,13 +40,13 @@ public class TS_SQLInsert {
             IntStream.range(0, vals.size()).forEachOrdered(i -> {
                 if (vals.get(i) instanceof TGS_SQLCellBYTESSTR cell) {
                     var valString = cell.getValueString();
-                    var bytes = TS_StringUtils.toByte(TGS_StringUtils.toEmptyIfNull(valString));
+                    var bytes = TGS_StringUtils.jre().toByte(TGS_StringUtils.cmn().toEmptyIfNull(valString));
                     valss.add(bytes);
                     return;
                 }
                 if (vals.get(i) instanceof TGS_SQLCellSTR cell) {
                     var valString = cell.getValueString();
-                    valss.add(TGS_StringUtils.toEmptyIfNull(valString));
+                    valss.add(TGS_StringUtils.cmn().toEmptyIfNull(valString));
                     return;
                 }
                 if (vals.get(i) instanceof TGS_SQLCellLNG cell) {
