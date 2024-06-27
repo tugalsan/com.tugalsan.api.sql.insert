@@ -1,6 +1,6 @@
 package com.tugalsan.api.sql.insert.server;
 
-import com.tugalsan.api.callable.client.TGS_CallableType1_Run;
+import com.tugalsan.api.function.client.TGS_Func_In1;
 import java.util.*;
 import java.util.stream.*;
 
@@ -26,7 +26,7 @@ public class TS_SQLInsert {
     }
     final private TS_SQLInsertExecutor executor;
 
-    private TS_SQLConnStmtUpdateResult valDriver(TGS_CallableType1_Run<List> vals) {
+    private TS_SQLConnStmtUpdateResult valDriver(TGS_Func_In1<List> vals) {
         vals.run(executor.cellVals);
         return executor.run();
     }
@@ -151,7 +151,7 @@ public class TS_SQLInsert {
         ));
     }
 
-    public TS_SQLConnStmtUpdateResult gen_then_setCell(TGS_CallableType1_Run<TS_SQLInsertGen> gen) {
+    public TS_SQLConnStmtUpdateResult gen_then_setCell(TGS_Func_In1<TS_SQLInsertGen> gen) {
         IntStream.range(0, executor.colNames.size()).forEachOrdered(ci -> {
             if (ci == 0) {
                 var g = new TS_SQLCellGenLngNext(
@@ -186,8 +186,8 @@ public class TS_SQLInsert {
                 executor.cellGens.add(g);
                 return;
             }
-            d.ce("gen(TGS_CallableType1_Run<TS_SQLInsertGen> gen)", "tableName", executor.tableName);
-            d.ce("gen(TGS_CallableType1_Run<TS_SQLInsertGen> gen)", "cols", executor.colNames);
+            d.ce("gen(TGS_Func_In1<TS_SQLInsertGen> gen)", "tableName", executor.tableName);
+            d.ce("gen(TGS_Func_In1<TS_SQLInsertGen> gen)", "cols", executor.colNames);
             TGS_UnSafe.thrw(d.className, "gen", "unknown colun generation type");
         });
         var g = new TS_SQLInsertGen(executor);
