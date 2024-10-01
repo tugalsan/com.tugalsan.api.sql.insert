@@ -150,6 +150,7 @@ public class TS_SQLInsert {
         ));
     }
 
+    @Deprecated //never worked :(
     public TS_SQLConnStmtUpdateResult gen_then_setCell(TGS_Func_In1<TS_SQLInsertGen> gen) {
         IntStream.range(0, executor.colNames.size()).forEachOrdered(ci -> {
             if (ci == 0) {
