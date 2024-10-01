@@ -27,7 +27,7 @@ public class TS_SQLInsertExecutor {
     final public List cellVals = TGS_ListUtils.of();
 
     @Override
-    public String toString() {
+    public String toString() {//INSERT INTO table_name VALUES (value1, value2, value3, ...);
         d.ci("toString", "tableName", tableName);
         TS_SQLSanitizeUtils.sanitize(tableName);
         var sb = new StringBuilder("INSERT INTO ").append(tableName).append(" VALUES (");
