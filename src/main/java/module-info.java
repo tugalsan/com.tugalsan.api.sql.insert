@@ -1,7 +1,7 @@
 module com.tugalsan.api.sql.insert {
     requires java.sql;
     
-    requires com.tugalsan.api.unsafe;
+    
     requires com.tugalsan.api.stream;
     requires com.tugalsan.api.union;
     requires com.tugalsan.api.string;

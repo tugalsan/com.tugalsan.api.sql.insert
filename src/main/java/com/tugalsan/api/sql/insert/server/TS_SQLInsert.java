@@ -1,10 +1,11 @@
 package com.tugalsan.api.sql.insert.server;
 
-import com.tugalsan.api.function.client.TGS_Func_In1;
+import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCE_In1;
 import java.util.*;
 import java.util.stream.*;
 
 import com.tugalsan.api.file.obj.server.*;
+import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCEUtils;
 import com.tugalsan.api.list.client.*;
 import com.tugalsan.api.log.server.*;
 import com.tugalsan.api.sql.cell.client.*;
@@ -14,7 +15,7 @@ import com.tugalsan.api.sql.conn.server.*;
 import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.time.client.*;
-import com.tugalsan.api.unsafe.client.*;
+
 
 public class TS_SQLInsert {
 
@@ -25,7 +26,7 @@ public class TS_SQLInsert {
     }
     final private TS_SQLInsertExecutor executor;
 
-    private TS_SQLConnStmtUpdateResult valDriver(TGS_Func_In1<List> vals) {
+    private TS_SQLConnStmtUpdateResult valDriver(TGS_FuncMTUCE_In1<List> vals) {
         vals.run(executor.cellVals);
         return executor.run();
     }
@@ -61,7 +62,7 @@ public class TS_SQLInsert {
                 d.ce("valCell(List<TGS_SQLCellAbstract> vals", "tableName", executor.tableName);
                 d.ce("valCell(List<TGS_SQLCellAbstract> vals", "cols", executor.colNames);
                 d.ce("valCell(List<TGS_SQLCellAbstract> vals", "vals", vals);
-                TGS_UnSafe.thrw(d.className, "valCell(List<TGS_SQLCellAbstract> vals)", "Unknown cell type");
+                TGS_FuncMTUCEUtils.thrw(d.className, "valCell(List<TGS_SQLCellAbstract> vals)", "Unknown cell type");
             });
         });
     }
@@ -111,7 +112,7 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_FuncMTUCEUtils.thrw(d.className, "valObj(List<Object> vals)", "Long/Integer/short/TGS_Time cell should be supplied for familyLng. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyStr()) {
                         if (o instanceof CharSequence val) {
@@ -120,7 +121,7 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_FuncMTUCEUtils.thrw(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for familyStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.typeBytesStr()) {
                         if (o instanceof CharSequence val) {
@@ -129,7 +130,7 @@ public class TS_SQLInsert {
                         d.ce("List<Object> vals", "tableName", executor.tableName);
                         d.ce("List<Object> vals", "cols", executor.colNames);
                         d.ce("List<Object> vals", "vals", vals);
-                        return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
+                        return TGS_FuncMTUCEUtils.thrw(d.className, "valObj(List<Object> vals)", "CharSequence cell should be supplied for typeBytesStr. o: " + o.getClass().getSimpleName() + " -> " + o);
                     }
                     if (ct.familyBytes()) {
                         if (o instanceof Object[] && ct.typeBytesRow()) {
@@ -145,13 +146,13 @@ public class TS_SQLInsert {
                     d.ce("List<Object> vals", "tableName", executor.tableName);
                     d.ce("List<Object> vals", "cols", executor.colNames);
                     d.ce("List<Object> vals", "vals", vals);
-                    return TGS_UnSafe.thrw(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
+                    return TGS_FuncMTUCEUtils.thrw(d.className, "valObj(List<Object> vals)", "Unknown colummn type cn: " + o.getClass().getSimpleName() + " -> " + cn);
                 })
         ));
     }
 
     @Deprecated //never worked :(
-    public TS_SQLConnStmtUpdateResult gen_then_setCell(TGS_Func_In1<TS_SQLInsertGen> gen) {
+    public TS_SQLConnStmtUpdateResult gen_then_setCell(TGS_FuncMTUCE_In1<TS_SQLInsertGen> gen) {
         IntStream.range(0, executor.colNames.size()).forEachOrdered(ci -> {
             if (ci == 0) {
                 var g = new TS_SQLCellGenLngNext(
@@ -186,9 +187,9 @@ public class TS_SQLInsert {
                 executor.cellGens.add(g);
                 return;
             }
-            d.ce("gen(TGS_Func_In1<TS_SQLInsertGen> gen)", "tableName", executor.tableName);
-            d.ce("gen(TGS_Func_In1<TS_SQLInsertGen> gen)", "cols", executor.colNames);
-            TGS_UnSafe.thrw(d.className, "gen", "unknown colun generation type");
+            d.ce("gen(TGS_FuncMTUCE_In1<TS_SQLInsertGen> gen)", "tableName", executor.tableName);
+            d.ce("gen(TGS_FuncMTUCE_In1<TS_SQLInsertGen> gen)", "cols", executor.colNames);
+            TGS_FuncMTUCEUtils.thrw(d.className, "gen", "unknown colun generation type");
         });
         var g = new TS_SQLInsertGen(executor);
         gen.run(g);
