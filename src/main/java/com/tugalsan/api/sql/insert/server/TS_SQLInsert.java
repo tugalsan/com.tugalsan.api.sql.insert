@@ -87,7 +87,7 @@ public class TS_SQLInsert {
         return valCell(TGS_StreamUtils.toLst(
                 IntStream.range(0, vals.size()).mapToObj(i -> {
                     var cn = executor.colNames.get(i);
-                    var ct = new TGS_SQLColTyped(cn);
+                    var ct = TGS_SQLColTyped.of(cn);
                     var o = vals.get(i);
                     if (ct.familyLng()) {
                         if (o instanceof Long type) {
