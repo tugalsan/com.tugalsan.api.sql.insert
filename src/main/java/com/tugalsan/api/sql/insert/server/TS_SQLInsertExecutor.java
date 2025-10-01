@@ -1,13 +1,13 @@
 package com.tugalsan.api.sql.insert.server;
 
+import module com.tugalsan.api.list;
+import module com.tugalsan.api.log;
+import module com.tugalsan.api.sql.cellgen;
+import module com.tugalsan.api.sql.conn;
+import module com.tugalsan.api.sql.sanitize;
+import module java.sql;
 import java.util.*;
 import java.util.stream.*;
-import java.sql.*;
-import com.tugalsan.api.list.client.*;
-import com.tugalsan.api.log.server.*;
-import com.tugalsan.api.sql.cellgen.server.*;
-import com.tugalsan.api.sql.conn.server.*;
-import com.tugalsan.api.sql.sanitize.server.*;
 
 public class TS_SQLInsertExecutor {
 

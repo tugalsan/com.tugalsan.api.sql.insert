@@ -1,20 +1,18 @@
 package com.tugalsan.api.sql.insert.server;
 
-import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTU_In1;
+import module com.tugalsan.api.file.obj;
+import module com.tugalsan.api.function;
+import module com.tugalsan.api.list;
+import module com.tugalsan.api.log;
+import module com.tugalsan.api.sql.cell;
+import module com.tugalsan.api.sql.cellgen;
+import module com.tugalsan.api.sql.col.typed;
+import module com.tugalsan.api.sql.conn;
+import module com.tugalsan.api.stream;
+import module com.tugalsan.api.string;
+import module com.tugalsan.api.time;
 import java.util.*;
 import java.util.stream.*;
-
-import com.tugalsan.api.file.obj.server.*;
-import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTUUtils;
-import com.tugalsan.api.list.client.*;
-import com.tugalsan.api.log.server.*;
-import com.tugalsan.api.sql.cell.client.*;
-import com.tugalsan.api.sql.cellgen.server.*;
-import com.tugalsan.api.sql.col.typed.client.*;
-import com.tugalsan.api.sql.conn.server.*;
-import com.tugalsan.api.stream.client.*;
-import com.tugalsan.api.string.client.*;
-import com.tugalsan.api.time.client.*;
 
 
 public class TS_SQLInsert {

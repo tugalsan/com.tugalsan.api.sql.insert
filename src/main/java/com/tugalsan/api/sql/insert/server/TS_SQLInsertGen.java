@@ -1,6 +1,6 @@
 package com.tugalsan.api.sql.insert.server;
 
-import com.tugalsan.api.sql.cellgen.server.*;
+import module com.tugalsan.api.sql.cellgen;
 
 public class TS_SQLInsertGen {
 
